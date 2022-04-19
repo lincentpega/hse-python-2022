@@ -1,6 +1,8 @@
 from typing import Iterable
+import random as rd
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
+template = '########################################################################'
 
 
 def greet_user(name: str) -> str:
@@ -12,7 +14,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = f'Hello, {name}!'
+
     return greeting
 
 
@@ -28,7 +31,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(rd.uniform(100, 1000000), 2)
+
     return amount
 
 
@@ -42,8 +46,14 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    if phone_number[0] == '+' and phone_number[1] == '7' and len(phone_number):
+        for i in range(2, len(phone_number)):
+            if not ('0' <= phone_number[i] <= '9'):
+                return False
+    else:
+        return False
+
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,8 +68,8 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,7 +87,13 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    text = text.strip().capitalize().replace('\'', '').replace('\"', '')
+
+    for word in UNCULTURED_WORDS:
+        if word in text:
+            replacement = '#' * len(word)
+            text = text.replace(word, replacement)
+    result = text
     return result
 
 
@@ -100,5 +116,11 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(',')
+    result = f'Фамилия: {user_info[0]}\n' +\
+             f'Имя: {user_info[1]}\n' +\
+             f'Отчество: {user_info[2]}\n' +\
+             f'Дата рождения: {user_info[3]}\n' +\
+             f'Запрошенная сумма: {user_info[4]}'
+
     return result
